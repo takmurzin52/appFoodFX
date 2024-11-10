@@ -14,13 +14,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class HelloController implements Initializable {
@@ -99,6 +98,59 @@ public class HelloController implements Initializable {
         // открываем окно и ждем пока его закроют
         stage.showAndWait();
 
+        // вытаскиваем контроллер который привязан к форме
+        FoodFormController controller = loader.getController();
+        // проверяем что наали кнопку save
+        if (controller.getModalResult()) {
+            // собираем еду с формы
+            Food newFood = controller.getFood();
+            // добавляем в список
+            this.foodList.add(newFood);
+        }
+
     }
 
+    public void onEditClick(ActionEvent actionEvent) throws IOException, java.io.IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/com/example/appfoodfx/FoodForm.fxml"));
+        Parent root = loader.load();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(this.mainTable.getScene().getWindow());
+
+        stage.showAndWait();
+
+        // передаем выбранную еду
+        FoodFormController controller = loader.getController();
+        controller.setFood((Food) this.mainTable.getSelectionModel().getSelectedItem());
+
+        stage.showAndWait();
+
+        // если нажали кнопку сохранить
+        if (controller.getModalResult()) {
+            // узнаем индекс выбранной в таблице строки
+            int index = this.mainTable.getSelectionModel().getSelectedIndex();
+            // подменяем строку в таблице данными на форме
+            this.mainTable.getItems().set(index, controller.getFood());
+        }
+    }
+
+    public void onDeleteClick(ActionEvent actionEvent) {
+        // берем выбранную на форме еду
+        Food food = (Food) this.mainTable.getSelectionModel().getSelectedItem();
+
+        // выдаем подтверждающее сообщение
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Подтверждение");
+        alert.setHeaderText(String.format("Точно удалить %s?", food.getTitle()));
+
+        // если пользователь нажал OK
+        Optional<ButtonType> option = alert.showAndWait();
+        if (option.get() == ButtonType.OK) {
+            // удаляем строку из таблицы
+            this.mainTable.getItems().remove(food);
+        }
+    }
 }

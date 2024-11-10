@@ -9,19 +9,18 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
    <children>
-      <HBox prefHeight="0.0" prefWidth="460.0">
-         <children>
-            <Button mnemonicParsing="false" text="Добавить" onAction="#onAddClick"/>
-            <Button mnemonicParsing="false" text="Редактировать">
-               <HBox.margin>
-                  <Insets left="5.0" />
-               </HBox.margin>
-            </Button>
-         </children>
-         <VBox.margin>
-            <Insets top="-10.0" />
-         </VBox.margin>
-      </HBox>
+      <MenuBar>
+        <menus>
+          <Menu mnemonicParsing="false" text="Файл" />
+          <Menu mnemonicParsing="false" text="Данные">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#onAddClick" text="Добавить" />
+                  <MenuItem mnemonicParsing="false" onAction="#onEditClick" text="Редактировать" />
+                  <MenuItem mnemonicParsing="false" onAction="#onDeleteClick" text="Удалить" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
       <TableView fx:id="mainTable" prefHeight="247.0" prefWidth="460.0" VBox.vgrow="ALWAYS" />
    </children>
 </VBox>

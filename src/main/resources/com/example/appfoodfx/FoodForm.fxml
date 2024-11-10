@@ -53,8 +53,8 @@
             <Insets bottom="20.0" top="20.0" />
          </padding>
       </VBox>
-      <Button mnemonicParsing="false" text="Сохранить" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
-      <Button mnemonicParsing="false" text="Отмена" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#onSaveClick" text="Сохранить" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#onCancelClick" text="Отмена" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
    </children>
    <padding>
       <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
